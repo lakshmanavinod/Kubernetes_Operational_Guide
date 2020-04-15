@@ -65,24 +65,34 @@
 </ul>
 <p><strong>Steps:</strong></p>
 <p>SSH to kubernetes master and execute the following steps.</p>
-<p>1.Get the token from the Kubernetes master.</p>
-<pre><code>kubeadm tokens list
+<ol>
+<li>Get the token from the Kubernetes master.</li>
+</ol>
+<pre><code>    kubeadm tokens list
 </code></pre>
-<p>2.If your cluster was initialized over 24-hour ago, the list will likely be empty, since a token’s lifespan is only 24-hours. Then create a new token</p>
-<pre><code>kubeadm token create --print-join-command
+<ol start="2">
+<li>If your cluster was initialized over 24-hour ago, the list will likely be empty, since a token’s lifespan is only 24-hours. Then create a new token</li>
+</ol>
+<pre><code>    kubeadm token create --print-join-command
 </code></pre>
-<p>3.Use kubeadm to list all tokens in order to verify our new one.</p>
-<pre><code>kubeadm tokens list
+<ol start="3">
+<li>Use kubeadm to list all tokens in order to verify our new one.</li>
+</ol>
+<pre><code>    kubeadm tokens list
 </code></pre>
 <p>SSH to Worker node which you need to add and execute the following tasks.</p>
-<p>4.Use the kubeadm join command with our new token to join the node to our cluster</p>
+<ol start="4">
+<li>Use the kubeadm join command with our new token to join the node to our cluster</li>
+</ol>
 <pre class=" language-shell"><code class="prism  language-shell">kubeadm join &lt;api-server-endpoint&gt; --discovery-token abcdef.1234567890abcdef --discovery-token-ca-cert-hash sha256:1234..cdef 1.2.3.4:6443
 </code></pre>
 <p>Example:</p>
 <pre><code>kubeadm join 192.168.1.130:6443 --token qt57zu.wuvqh64un13trr7x --discovery-token-ca-cert-hash sha256:5ad014cad868fdfe9388d5b33796cf40fc1e8c2b3dccaebff0b066a0532e8723
 </code></pre>
-<p>5.Verify the status of the node that is added to ensure it is successfully added without any issues.</p>
-<pre><code>kubectl get nodes &lt;node-name&gt;
+<ol start="5">
+<li>Verify the status of the node that is added to ensure it is successfully added without any issues.</li>
+</ol>
+<pre><code>    kubectl get nodes &lt;node-name&gt;
 </code></pre>
 <h3 id="to-remove-a-worker-node-gracefully-from-a-kubernetes-cluster">2. To remove a worker node gracefully from a kubernetes cluster</h3>
 <p><strong>Steps:</strong></p>
