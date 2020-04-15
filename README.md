@@ -1,8 +1,3 @@
----
-
-
----
-
 <h1 id="runbook-for-high-available-kubernetes-cluster">Runbook for High Available Kubernetes Cluster</h1>
 <p><strong>Note: [IMP] Document preparation in progress and not complete.</strong></p>
 <h2 id="use-case">Use-case:</h2>
