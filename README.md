@@ -63,4 +63,26 @@ SSH to kubernetes master and execute the following steps.</p>
 <p>5.Verify the status of the node that is added to ensure it is successfully added without any issues.</p>
 <pre><code>kubectl get nodes &lt;node-name&gt;
 </code></pre>
+<h3 id="to-remove-a-worker-node-gracefully-from-a-kubernetes-cluster">To remove a worker node gracefully from a kubernetes cluster</h3>
+<p>1.List all the nodes in the existing cluster</p>
+<pre><code>kubectl get nodes
+</code></pre>
+<p>2.Drain the node that needs to be removed.</p>
+<pre><code>kubectl drain &lt;node-name&gt;
+</code></pre>
+<p>You can use kubectl drain to safely evict all of your pods from a node before you perform maintenance on the node (e.g. kernel upgrade, hardware maintenance, etc.). Safe evictions allow the pod’s containers to gracefully terminate.</p>
+<p>3.Incase you have daemon-sets and  that are running in your cluster and local volumes. You can use the following options. It is always recommended not  to use the local host filesystems for the persistent volumes.</p>
+<pre><code>kubectl drain &lt;node-name&gt; --ignore-daemonsets --delete-local-data
+</code></pre>
+<p>4.Perform the maintenance work such as kernel upgrade, hardware upgrade, etc.</p>
+<p>5.Enable the node back to receive the load of the kubernetes cluster and make it scheduled.</p>
+<blockquote>
+<p>kubectl uncordon </p>
+</blockquote>
+<p>Incase , if you don’t want the node to be part of the existing cluster and want to remove it permanently.</p>
+<p>Delete the node from the cluster and perform a kubeadm reset.</p>
+<pre><code>kubectl delete node &lt;node-name&gt;
+</code></pre>
+<pre><code>kubeadm reset ( Make sure it is executed on the removed worker node.)
+</code></pre>
 
