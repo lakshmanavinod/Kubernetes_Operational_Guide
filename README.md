@@ -88,8 +88,8 @@
 <p>5.Enable the node back to receive the load of the kubernetes cluster and make it scheduled.</p>
 <pre><code>kubectl uncordon &lt;node-name&gt;
 </code></pre>
-<p>Incase , if you don’t want the node to be part of the existing cluster and want to remove it permanently.</p>
-<p>Delete the node from the cluster and perform a kubeadm reset.</p>
+<p>Incase , if you don’t want the node to be part of the existing cluster and want to remove it permanently.  Instead of step 5 , Please execute step 6</p>
+<p>6.Delete the node from the cluster and perform a kubeadm reset.</p>
 <pre><code>kubectl delete node &lt;node-name&gt;
 </code></pre>
 <pre><code>kubeadm reset ( Make sure it is executed on the removed worker node.)
