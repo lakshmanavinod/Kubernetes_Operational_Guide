@@ -6,30 +6,42 @@
 <h1 id="runbook-for-high-available-kubernetes-cluster">Runbook for High Available Kubernetes Cluster</h1>
 <p><strong>Note: [IMP] Document preparation in progress and not complete.</strong></p>
 <h2 id="assumption">Assumption:</h2>
-<ul>
-<li>There is a existing on-premises high available Kubernetes cluster.</li>
-</ul>
+<p><em>There is a existing on-premises high available Kubernetes cluster.</em></p>
 <h2 id="basic-kubernetes-commands">Basic Kubernetes Commands:</h2>
-<p>To check the version of the kubernetes cluster:</p>
-<pre><code>kubeadm version
+<ul>
+<li>To check the version of the kubernetes cluster:</li>
+</ul>
+<pre><code>    kubeadm version
 </code></pre>
-<p>To check the nodes existing in the kubernetes cluster:</p>
-<pre><code>kubectl get nodes
+<ul>
+<li>To check the nodes existing in the kubernetes cluster:</li>
+</ul>
+<pre><code>    kubectl get nodes
 </code></pre>
-<p>To display the addresses of the master and services in kubernetes cluster:</p>
-<pre><code>kubectl cluster-info
+<ul>
+<li>To display the addresses of the master and services in kubernetes cluster:</li>
+</ul>
+<pre><code>    kubectl cluster-info
 </code></pre>
-<p>To further debug and diagnose cluster problems , use:</p>
-<pre><code>kubectl cluster-info dump
+<ul>
+<li>To further debug and diagnose cluster problems , use:</li>
+</ul>
+<pre><code>    kubectl cluster-info dump
 </code></pre>
-<p>To mark a node as un-scheduled:</p>
-<pre><code>kubectl cordon &lt;node-name&gt;
+<ul>
+<li>To mark a node as un-scheduled:</li>
+</ul>
+<pre><code>    kubectl cordon &lt;node-name&gt;
 </code></pre>
-<p>To mark a node as scheduled:</p>
-<pre><code>kubectl uncordon &lt;node-name&gt;
+<ul>
+<li>To mark a node as scheduled:</li>
+</ul>
+<pre><code>    kubectl uncordon &lt;node-name&gt;
 </code></pre>
-<p>To bring a node out of cluster and maintain it , Use drain:</p>
-<pre><code>kubectl drain &lt;node-name&gt;
+<ul>
+<li>To bring a node out of cluster and maintain it , Use drain:</li>
+</ul>
+<pre><code>    kubectl drain &lt;node-name&gt;
 </code></pre>
 <h2 id="maintenance-activities">Maintenance Activities</h2>
 <h3 id="to-add-a-new-worker-node-to-a-existing-kubernetes-cluster">1. To add a new worker node to a existing kubernetes cluster:</h3>
@@ -74,22 +86,36 @@
 </code></pre>
 <h3 id="to-remove-a-worker-node-gracefully-from-a-kubernetes-cluster">2. To remove a worker node gracefully from a kubernetes cluster</h3>
 <p><strong>Steps:</strong></p>
-<p>1.List all the nodes in the existing cluster</p>
+<ol>
+<li>List all the nodes in the existing cluster</li>
+</ol>
 <pre><code>kubectl get nodes
 </code></pre>
-<p>2.Drain the node that needs to be removed.</p>
-<pre><code>kubectl drain &lt;node-name&gt;
+<ol start="2">
+<li>Drain the node that needs to be removed.</li>
+</ol>
+<pre><code>    kubectl drain &lt;node-name&gt;
 </code></pre>
 <p>You can use kubectl drain to safely evict all of your pods from a node before you perform maintenance on the node (e.g. kernel upgrade, hardware maintenance, etc.). Safe evictions allow the pod’s containers to gracefully terminate.</p>
-<p>3.Incase you have daemon-sets and  that are running in your cluster and local volumes. You can use the following options. It is always recommended not  to use the local host filesystems for the persistent volumes.</p>
+<ol start="3">
+<li>Incase you have daemon-sets and  that are running in your cluster and local volumes. You can use the following options. It is always recommended not  to use the local host filesystems for the persistent volumes.</li>
+</ol>
 <pre><code>kubectl drain &lt;node-name&gt; --ignore-daemonsets --delete-local-data
 </code></pre>
-<p>4.Perform the maintenance work such as kernel upgrade, hardware upgrade, etc.</p>
-<p>5.Enable the node back to receive the load of the kubernetes cluster and make it scheduled.</p>
+<ol start="4">
+<li>
+<p>Perform the maintenance work such as kernel upgrade, hardware upgrade, etc.</p>
+</li>
+<li>
+<p>Enable the node back to receive the load of the kubernetes cluster and make it scheduled.</p>
+</li>
+</ol>
 <pre><code>kubectl uncordon &lt;node-name&gt;
 </code></pre>
 <p>Incase , if you don’t want the node to be part of the existing cluster and want to remove it permanently.  Instead of step 5 , Please execute step 6</p>
-<p>6.Delete the node from the cluster and perform a kubeadm reset.</p>
+<ol start="6">
+<li>Delete the node from the cluster and perform a kubeadm reset.</li>
+</ol>
 <pre><code>kubectl delete node &lt;node-name&gt;
 </code></pre>
 <pre><code>kubeadm reset ( Make sure it is executed on the removed worker node.)
