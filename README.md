@@ -1,6 +1,11 @@
+---
+
+
+---
+
 <h1 id="runbook-for-high-available-kubernetes-cluster">Runbook for High Available Kubernetes Cluster</h1>
 <p><strong>Note: [IMP] Document preparation in progress and not complete.</strong></p>
-<h2 id="use-case">Use-case:</h2>
+<h2 id="assumption">Assumption:</h2>
 <ul>
 <li>There is a existing on-premises high available Kubernetes cluster  with etcd and control plane co-located.</li>
 </ul>
@@ -26,8 +31,8 @@
 <p>To bring a node out of cluster and maintain it , Use drain:</p>
 <pre><code>kubectl drain &lt;node-name&gt;
 </code></pre>
-<h2 id="maintainance-activities">Maintainance Activities</h2>
-<h3 id="to-add-a-new-worker-node-to-a-existing-kubernetes-cluster">To add a new worker node to a existing kubernetes cluster:</h3>
+<h2 id="maintenance-activities">Maintenance Activities</h2>
+<h3 id="to-add-a-new-worker-node-to-a-existing-kubernetes-cluster">1. To add a new worker node to a existing kubernetes cluster:</h3>
 <p>Verify the below system requirements are met<br>
 <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin</a></p>
 <p>Pre-requisites:<br>
