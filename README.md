@@ -33,17 +33,26 @@
 </code></pre>
 <h2 id="maintenance-activities">Maintenance Activities</h2>
 <h3 id="to-add-a-new-worker-node-to-a-existing-kubernetes-cluster">1. To add a new worker node to a existing kubernetes cluster:</h3>
+<ul>
+<li>
 <p>Verify the below system requirements are met<br>
 <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin</a></p>
+</li>
+<li>
 <p>Pre-requisites:<br>
-Install Docker ( Container runtime )<br>
-Install Kubectl<br>
-Install Kubelet<br>
-Install Kubeadm</p>
-<p>References: <a href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a><br>
+-Install Docker ( Container runtime )<br>
+-Install Kubectl<br>
+-Install Kubelet<br>
+-Install Kubeadm</p>
+</li>
+<li>
+<p>References:<br>
+<a href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a><br>
 <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl</a></p>
-<p>Steps:<br>
-SSH to kubernetes master and execute the following steps.</p>
+</li>
+</ul>
+<p><strong>Steps:</strong></p>
+<p>SSH to kubernetes master and execute the following steps.</p>
 <p>1.Get the token from the Kubernetes master.</p>
 <pre><code>kubeadm tokens list
 </code></pre>
@@ -63,7 +72,8 @@ SSH to kubernetes master and execute the following steps.</p>
 <p>5.Verify the status of the node that is added to ensure it is successfully added without any issues.</p>
 <pre><code>kubectl get nodes &lt;node-name&gt;
 </code></pre>
-<h3 id="to-remove-a-worker-node-gracefully-from-a-kubernetes-cluster">To remove a worker node gracefully from a kubernetes cluster</h3>
+<h3 id="to-remove-a-worker-node-gracefully-from-a-kubernetes-cluster">2. To remove a worker node gracefully from a kubernetes cluster</h3>
+<p><strong>Steps:</strong></p>
 <p>1.List all the nodes in the existing cluster</p>
 <pre><code>kubectl get nodes
 </code></pre>
