@@ -86,9 +86,8 @@
 </code></pre>
 <p>4.Perform the maintenance work such as kernel upgrade, hardware upgrade, etc.</p>
 <p>5.Enable the node back to receive the load of the kubernetes cluster and make it scheduled.</p>
-<blockquote>
-<p>kubectl uncordon </p>
-</blockquote>
+<pre><code>kubectl uncordon &lt;node-name&gt;
+</code></pre>
 <p>Incase , if you don’t want the node to be part of the existing cluster and want to remove it permanently.</p>
 <p>Delete the node from the cluster and perform a kubeadm reset.</p>
 <pre><code>kubectl delete node &lt;node-name&gt;
