@@ -7,7 +7,7 @@
 <p><strong>Note: [IMP] Document preparation in progress and not complete.</strong></p>
 <h2 id="assumption">Assumption:</h2>
 <ul>
-<li>There is a existing on-premises high available Kubernetes cluster  with etcd and control plane co-located.</li>
+<li>There is a existing on-premises high available Kubernetes cluster.</li>
 </ul>
 <h2 id="basic-kubernetes-commands">Basic Kubernetes Commands:</h2>
 <p>To check the version of the kubernetes cluster:</p>
