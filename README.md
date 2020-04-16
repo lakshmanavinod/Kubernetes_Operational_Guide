@@ -216,9 +216,7 @@ sudo systemctl restart kubelet
 <li>
 <p>Upgrade kubelet and kubectl on all the worker nodes.</p>
 <pre><code> yum install -y kubelet-1.18.x-0 kubectl-1.18.x-0 --disableexcludes=kubernetes
-
  sudo systemctl restart kubelet
-
 </code></pre>
 </li>
 <li>
