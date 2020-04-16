@@ -288,9 +288,9 @@ sudo systemctl restart kubelet
 <ol start="2">
 <li>Create a resourcequota for the namespace created above.</li>
 </ol>
-<pre class=" language-yaml"><code class="prism  language-yaml">admin/resource/quota<span class="token punctuation">-</span>mem<span class="token punctuation">-</span>cpu.yaml 
-
-<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<pre><code>admin/resource/quota-mem-cpu.yaml
+</code></pre>
+<pre class=" language-yaml"><code class="prism  language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> ResourceQuota
 <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
   <span class="token key atrule">name</span><span class="token punctuation">:</span> mem<span class="token punctuation">-</span>cpu<span class="token punctuation">-</span>demo
@@ -304,7 +304,7 @@ sudo systemctl restart kubelet
 <p>Apply it to the cluster</p>
 <pre><code>kubectl apply -f https://k8s.io/examples/admin/resource/quota-mem-cpu.yaml --namespace=&lt;namespace-name&gt;
 </code></pre>
-<ol start="3">
+<ol start="4">
 <li>Verify if it is successfully created.</li>
 </ol>
 <pre><code>kubectl get resourcequota &lt;resourcquota-name&gt; --namespace=&lt;namespace-name&gt; -o yaml
@@ -319,9 +319,9 @@ sudo systemctl restart kubelet
 <ol start="2">
 <li>Create the limit-range for a pod</li>
 </ol>
-<pre class=" language-yaml"><code class="prism  language-yaml">admin/resource/cpu<span class="token punctuation">-</span><span class="token punctuation">-</span>memory<span class="token punctuation">-</span>constraints.yaml 
-
-<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<pre><code>admin/resource/cpu--memory-constraints.yaml 
+</code></pre>
+<pre class=" language-yaml"><code class="prism  language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> LimitRange
 <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
   <span class="token key atrule">name</span><span class="token punctuation">:</span> cpu<span class="token punctuation">-</span>min<span class="token punctuation">-</span>max<span class="token punctuation">-</span>demo<span class="token punctuation">-</span>lr
@@ -335,7 +335,7 @@ sudo systemctl restart kubelet
       <span class="token key atrule">memory</span><span class="token punctuation">:</span> 500Mi
     <span class="token key atrule">type</span><span class="token punctuation">:</span> Container
 </code></pre>
-<ol start="3">
+<ol start="4">
 <li>Apply it to  cluster</li>
 </ol>
 <pre><code>kubectl apply -f https://k8s.io/examples/admin/resource/cpu-memory-constraints.yaml --namespace=&lt;namespace-name&gt;
