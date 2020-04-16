@@ -351,22 +351,22 @@ sudo systemctl restart kubelet
 <li>Create the default limitrange for a pod.</li>
 </ol>
 <pre><code>admin/resource/cpu-memory-defaults.yaml 
-
-apiVersion: v1
-kind: LimitRange
-metadata:
-  name: mem-limit-range
-spec:
-  limits:
-  - default:
-      memory: 512Mi
-      cpu: 1
-    defaultRequest:
-      memory: 256Mi
-      cpu: 0.5
-    type: Container
 </code></pre>
-<ol start="3">
+<pre class=" language-yaml"><code class="prism  language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> LimitRange
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> mem<span class="token punctuation">-</span>limit<span class="token punctuation">-</span>range
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">default</span><span class="token punctuation">:</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> 512Mi
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token key atrule">defaultRequest</span><span class="token punctuation">:</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256Mi
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token number">0.5</span>
+    <span class="token key atrule">type</span><span class="token punctuation">:</span> Container
+</code></pre>
+<ol start="4">
 <li>Apply it to  cluster</li>
 </ol>
 <pre><code>kubectl apply -f https://k8s.io/examples/admin/resource/cpu-memory-defaults.yaml --namespace=&lt;namespace-name&gt;
