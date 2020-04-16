@@ -165,10 +165,9 @@ Let’s take Centos/RHEL machine for this activity, If you have a different oper
 </code></pre>
 </li>
 <li>
-<p>Drain the kubernetes master node<br>
-```<br>
-kubectl drain  --ignore-daemonsets</p>
-<pre><code></code></pre>
+<p>Drain the kubernetes master node</p>
+<pre><code>kubectl drain &lt;node-name&gt; --ignore-daemonsets
+</code></pre>
 </li>
 <li>
 <p>Upgrade the kubernetes master node</p>
@@ -176,36 +175,61 @@ kubectl drain  --ignore-daemonsets</p>
 </code></pre>
 </li>
 <li>
-<p>Manually upgrade CNI Plugin , if required . Please refer addons for details.</p>
+<p>Manually upgrade CNI Plugin , if required . Please refer <a href="https://kubernetes.io/docs/concepts/cluster-administration/addons/">addons</a> for details.</p>
 </li>
 <li>
 <p>Uncordon the kubernetes master</p>
+<pre><code>kubectl uncordon &lt;cp-node-name&gt;
+</code></pre>
 </li>
 <li>
 <p>Upgrade other kubernetes masters,follow the same steps but instead of:</p>
+<pre><code>sudo kubeadm upgrade node
+</code></pre>
 <p>use:</p>
-<p>Also,  is not needed.</p>
+<pre><code>sudo kubeadm upgrade apply
+</code></pre>
+<p>Also, <code>sudo kubeadm upgrade plan</code> is not needed.</p>
 </li>
 <li>
-<p>Upgrade kubelet and kubectl on all Kuberenetes master nodes</p>
+<p>Upgrade kubelet and kubectl on all Kuberenetes master nodes.</p>
+<pre><code>yum install -y kubelet-1.18.x-0 kubectl-1.18.x-0 -   -disableexcludes=kubernetes
+
+sudo systemctl restart kubelet
+</code></pre>
 </li>
 <li>
 <p>Upgrade kudeadm on all the worker nodes</p>
+<pre><code> yum install -y kubeadm-1.18.&lt;latest_version&gt; --disableexcludes=kubernetes
+</code></pre>
 </li>
 <li>
 <p>Prepare the nodes for maintenance , drain all the nodes from cluster.</p>
+<pre><code>kubectl drain &lt;node-to-drain&gt; --ignore-daemonsets
+</code></pre>
 </li>
 <li>
-<p>Upgrade the kubeadm configuration on all worker nodes</p>
+<p>Upgrade the kubeadm configuration on all worker nodes.</p>
+<pre><code>sudo kubeadm upgrade node
+</code></pre>
 </li>
 <li>
 <p>Upgrade kubelet and kubectl on all the worker nodes.</p>
+<pre><code> yum install -y kubelet-1.18.x-0 kubectl-1.18.x-0 --disableexcludes=kubernetes
+
+ sudo systemctl restart kubelet
+
+</code></pre>
 </li>
 <li>
 <p>Uncordon all the nodes and bring it back to schedulable.</p>
+<pre><code>  kubectl uncordon &lt;node-to-drain&gt;
+</code></pre>
 </li>
 <li>
 <p>Verify the status of the cluster.</p>
+<pre><code>kubectl get nodes
+</code></pre>
 </li>
 </ol>
 <p>Incase , if you the upgrade fails, there would be automatic rollback that happens. For more instructions or details , Please refer to <a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/">https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/</a></p>
