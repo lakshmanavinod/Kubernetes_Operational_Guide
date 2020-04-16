@@ -276,4 +276,102 @@ sudo systemctl restart kubelet
 </ol>
 <pre><code>kubectl config current-context 
 </code></pre>
+<h3 id="manage-memory-and-cpu-resources-to-a-namespace">5. Manage Memory and CPU resources to a namespace:</h3>
+<h4 id="a--configure-memory-and-cpu-quotas-for-a-namespace">5.a  Configure Memory and CPU Quotas for a namespace:</h4>
+<p>This sets the quota or the total amount memory and CPU that can be used by all Containers running in a namespace. ( i.e Maximum resource quota for a namespace.)</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Create a namespace</li>
+</ol>
+<pre><code>kubectl create namespace &lt;namespace-name&gt;
+</code></pre>
+<ol start="2">
+<li>Create a resourcequota for the namespace created above.</li>
+</ol>
+<pre class=" language-yaml"><code class="prism  language-yaml">admin/resource/quota<span class="token punctuation">-</span>mem<span class="token punctuation">-</span>cpu.yaml 
+
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ResourceQuota
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> mem<span class="token punctuation">-</span>cpu<span class="token punctuation">-</span>demo
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">hard</span><span class="token punctuation">:</span>
+    <span class="token key atrule">requests.cpu</span><span class="token punctuation">:</span> <span class="token string">"1"</span>
+    <span class="token key atrule">requests.memory</span><span class="token punctuation">:</span> 1Gi
+    <span class="token key atrule">limits.cpu</span><span class="token punctuation">:</span> <span class="token string">"2"</span>
+    <span class="token key atrule">limits.memory</span><span class="token punctuation">:</span> 2Gi
+</code></pre>
+<p>Apply it to the cluster</p>
+<pre><code>kubectl apply -f https://k8s.io/examples/admin/resource/quota-mem-cpu.yaml --namespace=&lt;namespace-name&gt;
+</code></pre>
+<ol start="3">
+<li>Verify if it is successfully created.</li>
+</ol>
+<pre><code>kubectl get resourcequota &lt;resourcquota-name&gt; --namespace=&lt;namespace-name&gt; -o yaml
+</code></pre>
+<h4 id="b-configure-minimum-and-maximum--memory-and-cpu-constraints-for-a-namespace">5.b Configure minimum and maximum  Memory and CPU constraints for a namespace:</h4>
+<p>This limit applies to all the pods that are in the namespace on to which it is applied.</p>
+<ol>
+<li>Create a namespace</li>
+</ol>
+<pre><code>kubectl create namespace &lt;namespace-name&gt;
+</code></pre>
+<ol start="2">
+<li>Create the limit-range for a pod</li>
+</ol>
+<pre class=" language-yaml"><code class="prism  language-yaml">admin/resource/cpu<span class="token punctuation">-</span><span class="token punctuation">-</span>memory<span class="token punctuation">-</span>constraints.yaml 
+
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> LimitRange
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> cpu<span class="token punctuation">-</span>min<span class="token punctuation">-</span>max<span class="token punctuation">-</span>demo<span class="token punctuation">-</span>lr
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">max</span><span class="token punctuation">:</span>
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"800m"</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> 1Gi
+    <span class="token key atrule">min</span><span class="token punctuation">:</span>
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"200m"</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> 500Mi
+    <span class="token key atrule">type</span><span class="token punctuation">:</span> Container
+</code></pre>
+<ol start="3">
+<li>Apply it to  cluster</li>
+</ol>
+<pre><code>kubectl apply -f https://k8s.io/examples/admin/resource/cpu-memory-constraints.yaml --namespace=&lt;namespace-name&gt;
+</code></pre>
+<h4 id="c-configure-default-memory-and-cpu-constraints-for-a-namespace">5.c Configure default Memory and CPU constraints for a namespace:</h4>
+<p>This limit applies to all the pods that are in the namespace on to which it is applied.</p>
+<ol>
+<li>Create a namespace</li>
+</ol>
+<pre><code>kubectl create namespace &lt;namespace-name&gt;
+</code></pre>
+<ol start="2">
+<li>Create the default limitrange for a pod.</li>
+</ol>
+<pre class=" language-yaml"><code class="prism  language-yaml">admin/resource/cpu<span class="token punctuation">-</span>memory<span class="token punctuation">-</span>defaults.yaml 
+
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> LimitRange
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> mem<span class="token punctuation">-</span>limit<span class="token punctuation">-</span>range
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">default</span><span class="token punctuation">:</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> 512Mi
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token key atrule">defaultRequest</span><span class="token punctuation">:</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span> 256Mi
+      <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token number">0.5</span>
+    <span class="token key atrule">type</span><span class="token punctuation">:</span> Container
+</code></pre>
+<ol start="3">
+<li>Apply it to  cluster</li>
+</ol>
+<pre><code>kubectl apply -f https://k8s.io/examples/admin/resource/cpu-memory-defaults.yaml --namespace=&lt;namespace-name&gt;
+</code></pre>
+<h3 id="adding-a-windows-worker-node-to-a-existing-cluster.">6.  Adding a Windows worker node to a existing cluster.</h3>
+<p>Please follow all the steps listed in the following document</p>
+<p><a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/adding-windows-nodes/">https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/adding-windows-nodes/</a></p>
 
