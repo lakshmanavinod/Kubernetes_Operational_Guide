@@ -221,7 +221,7 @@ sudo systemctl restart kubelet
 </li>
 <li>
 <p>Uncordon all the nodes and bring it back to schedulable.</p>
-<pre><code>  kubectl uncordon &lt;node-to-drain&gt;
+<pre><code>kubectl uncordon &lt;node-to-drain&gt;
 </code></pre>
 </li>
 <li>
