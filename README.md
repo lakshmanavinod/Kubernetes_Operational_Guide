@@ -130,4 +130,83 @@
 </code></pre>
 <pre><code>kubeadm reset ( Make sure it is executed on the removed worker node.)
 </code></pre>
+<h3 id="upgrading-the-kubernetes-version">3. Upgrading the kubernetes version:</h3>
+<p><strong>Basic Workflow:</strong></p>
+<ul>
+<li>Upgrade the primary control plane node.</li>
+<li>Upgrade additional control plane nodes. ( Other Kubernetes masters )</li>
+<li>Upgrade worker nodes</li>
+</ul>
+<p><strong>Pre-requisites:</strong></p>
+<ul>
+<li>Swap must be disabled. To disable , Click <a href="https://serverfault.com/questions/684771/best-way-to-disable-swap-in-linux">here</a></li>
+</ul>
+<p><strong>Few things to note</strong>:</p>
+<ul>
+<li>After upgrade, all the containers are restarted.</li>
+<li>The upgrade can be only done for the next immediate minor version . For example, we can upgrade kubeadm from 1.18.y to 1.18.y+1 but not 1.18.y to 1.18.y+2</li>
+</ul>
+<p><strong>Steps:</strong><br>
+Let’s take Centos/RHEL machine for this activity, If you have a different operating system , Please refer the here.</p>
+<ol>
+<li>
+<p>Query the latest stable version of 1.18.</p>
+<pre><code>yum list --showduplicates kubeadm --disableexcludes=kubernetes
+</code></pre>
+</li>
+<li>
+<p>Upgrade control plane ( Kubernetes master which acts as leader )</p>
+<pre><code>yum install -y kubeadm-1.18.&lt;latest_version&gt; --disableexcludes=kubernetes
+</code></pre>
+</li>
+<li>
+<p>SSH to Kubernetes master and upgrade kudeadm version</p>
+<pre><code>kubeadm version
+</code></pre>
+</li>
+<li>
+<p>Drain the kubernetes master node<br>
+```<br>
+kubectl drain  --ignore-daemonsets</p>
+<pre><code></code></pre>
+</li>
+<li>
+<p>Upgrade the kubernetes master node</p>
+<pre class=" language-shell"><code class="prism  language-shell">sudo kubeadm upgrade plan
+</code></pre>
+</li>
+<li>
+<p>Manually upgrade CNI Plugin , if required . Please refer addons for details.</p>
+</li>
+<li>
+<p>Uncordon the kubernetes master</p>
+</li>
+<li>
+<p>Upgrade other kubernetes masters,follow the same steps but instead of:</p>
+<p>use:</p>
+<p>Also,  is not needed.</p>
+</li>
+<li>
+<p>Upgrade kubelet and kubectl on all Kuberenetes master nodes</p>
+</li>
+<li>
+<p>Upgrade kudeadm on all the worker nodes</p>
+</li>
+<li>
+<p>Prepare the nodes for maintenance , drain all the nodes from cluster.</p>
+</li>
+<li>
+<p>Upgrade the kubeadm configuration on all worker nodes</p>
+</li>
+<li>
+<p>Upgrade kubelet and kubectl on all the worker nodes.</p>
+</li>
+<li>
+<p>Uncordon all the nodes and bring it back to schedulable.</p>
+</li>
+<li>
+<p>Verify the status of the cluster.</p>
+</li>
+</ol>
+<p>Incase , if you the upgrade fails, there would be automatic rollback that happens. For more instructions or details , Please refer to <a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/">https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/</a></p>
 
