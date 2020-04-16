@@ -231,4 +231,49 @@ sudo systemctl restart kubelet
 </li>
 </ol>
 <p>Incase , if you the upgrade fails, there would be automatic rollback that happens. For more instructions or details , Please refer to <a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/">https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/</a></p>
+<h3 id="switch-between-namespaces-and-multiple-clusters">4. Switch between namespaces and multiple clusters:</h3>
+<h4 id="a-to-switch-between-different-namespaces-in-a-kubernetes-cluster">4.a To switch between different namespaces in a kubernetes cluster:</h4>
+<p>When you want to interact with objects in a different namespace than “default”, you must pass the <code>-n</code> flag to <code>kubectl</code>. For example, to see the pods in the Kubernetes system namespace, <code>kube-system</code>, we can run the following:</p>
+<pre><code>kubectl get pods -n kube-system
+</code></pre>
+<p>What if , If we want to operate on a particular namespace other than “default” for full day. Following is how we can switch the namespace in our context.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>To view the current namespace:</li>
+</ol>
+<pre><code>kubectl config view | grep namespace
+</code></pre>
+<ol start="2">
+<li>To change the namespace in the current-context</li>
+</ol>
+<pre><code>kubectl config set-context --current --namespace=my-namespace
+</code></pre>
+<ol start="3">
+<li>Verify the namespace has been udpated in the current context</li>
+</ol>
+<pre><code>kubectl config view | grep namespace
+</code></pre>
+<h4 id="b-to-switch-between-different-kubernetes-clusters-using-kubectl.">4.b To switch between different kubernetes clusters using kubectl.</h4>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>KUBECONFIG environment variable plays an important role. It holds the list of kubeconfig files.For Linux and Mac, the list is colon-delimited.</li>
+</ol>
+<p>Gather all your different Kube-conf files in a folder. And export these files separated by a colon. Also, you can add to your ~/.bash_profile file.</p>
+<pre><code>export KUBECONFIG=&lt;kube-conf-file1&gt;:&lt;kube-conf-file2&gt;:..so..on
+</code></pre>
+<ol start="2">
+<li>Verify all the contexts are set by getting the contexts. It should list all the contexts and names, namespaces, etc.</li>
+</ol>
+<pre><code>kubectl config get-contexts
+</code></pre>
+<ol start="3">
+<li>Set the context and start using it.</li>
+</ol>
+<pre><code> kubectl config use-context &lt;context-Name&gt;
+</code></pre>
+<ol start="4">
+<li>Verify the currently loaded context and make sure it points to the right kubernetes cluster.</li>
+</ol>
+<pre><code>kubectl config current-context 
+</code></pre>
 
